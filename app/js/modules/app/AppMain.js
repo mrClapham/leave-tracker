@@ -17,16 +17,18 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.testData = "AppController data"
     $scope.data = appControllerModel.data[0].name
 
-    
+
 
 }])
 
 
 AppMain.factory('AppControllerModel', function(){
-    return {title:"GitHubStreamData",
-        searchTerm:'Angular',
-        errorMessage: "No Errors",
-        issueErrorMessage: "No Errors",
+    return {title:"Main Model",
+        stringToDate:function(string){
+            var arr = string.split("/")
+
+        },
+
         data: [
             {
                 "userid": "1",

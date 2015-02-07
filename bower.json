@@ -1,0 +1,24 @@
+{
+  "name": "leavetracker",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mrClapham/leave-tracker",
+  "authors": [
+    "Graham Clapham <info@gcdesign.co.uk>"
+  ],
+  "description": "Tracks leave",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "#1.3.12",
+    "angular-route": "#1.3.12",
+    "angular-resource": "#1.3.12",
+    "lodash": "#3.1.0"
+  }
+}
