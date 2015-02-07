@@ -17,6 +17,15 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.testData = "AppController data"
     $scope.data = appControllerModel.data[0].name
 
+    var invalidEntries = 0;
+
+    $scope.dataByName = function( value ){
+        return _.filter($scope.data, function(n){
+            n.name == value
+        })
+    }
+
+    $scope.webby = $scope.dataByName('Matthew Webb');
 
 
 }])
