@@ -13,14 +13,30 @@
 <body>
 
 <div ng-app="AppMain" ng-controller="AppController">
-    <p>{{testData}}</p>
-    <p>{{data}}</p>
-    <p>{{webby}}</p>
+
     <div class="container">
         <!-- Example row of columns -->
         <div class="row">
             <!-- page specific view -->
             <div ng-view></div>
+
+            <ul>
+            <li data-ng-repeat = "(key, item) in nameList">
+                <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
+                <p>{{item}}</p>
+            </li>
+             </ul>
+
+            <ul>
+            <li data-ng-repeat = "(key, item) in dateList">
+                <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
+                <p>{{item}}</p>
+            </li>
+             </ul>
+
+
+
+
         </div>
     </div>
     <!-- container ends -->

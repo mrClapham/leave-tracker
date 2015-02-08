@@ -16,27 +16,97 @@ AppMain.config(['$routeProvider',
 AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($scope, appControllerModel){
     $scope.testData = "AppController data"
     $scope.data = appControllerModel.data[0].name
+// Get rid of the ones with no date and add a javaScript date to the array.
+    $scope.cleanData = function(){
+        return _.forEach(_.filter(appControllerModel.data, function(n){
+            return n.date && n.date != undefined
+        }), function(n){return n.jsDate = $scope.stringToDate(n.date)})
+    }
 
-    var invalidEntries = 0;
+    $scope.stringToDate=function(string){
+        if(!string) return;
+        var arr = string.split("/")
+        if(arr.length != 3 ){
+            return
+        }
+        return new Date(arr[2], arr[1]-1, arr[0])
+    }
 
-    $scope.dataByName = function( value ){
-        return _.filter($scope.data, function(n){
-            n.name == value
+    $scope.getAllDates = function(){
+        return _.map(appControllerModel.data, function(n){
+            return $scope.stringToDate( n.date );
         })
     }
 
+    $scope.getMinAndMaxDates = function(){
+        return {min: _.min($scope.getAllDates()) , max: _.max($scope.getAllDates()) }
+    }
+
+    $scope.addDate = function(userid, name, date, unit, value){
+        appControllerModel.data.push()
+
+    }
+
+    $scope.createCalandarArray = function(){
+        var a = [];
+        var startDate = $scope.getMinAndMaxDates().min;
+        var a = [];
+        a.push(new Date(startDate))
+
+        while(startDate < $scope.getMinAndMaxDates().max){
+            startDate.setDate(startDate.getDate()+1);
+            a.push(new Date(startDate))
+        }
+
+        return(a);
+    }
+
+    $scope.dateList =  $scope.createCalandarArray();
+
+    $scope.nameList = (function(){
+        return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
+    })();
+
+    $scope.dataByName = function( value ){
+        return _.filter(appControllerModel.data, function(n){
+          return   n.name == value
+        })
+    }
+
+    $scope.dataByDate = function( value ){
+        return _.filter(appControllerModel.data, function(n){
+            if(!n.jsDate){
+                return false
+            } else{
+               return  String(n.jsDate) == String(value)
+            }
+        })
+    }
+
+    $scope.getAllData = function(){
+        return appControllerModel.data
+    }
+
+
+
     $scope.webby = $scope.dataByName('Matthew Webb');
 
-
+//    console.log("scope.dataByName ", $scope.dataByName("Matthew Webb"))
+//    console.log("scope.dataByName ", $scope.getAllData())
+//    console.log("scope.nameList ", $scope.nameList)
+//    console.log("scope.getAllDates ", $scope.getAllDates())
+//    console.log("scope.getAllDates ", $scope.getMinAndMaxDates())
+//    console.log("scope.createCalandarArray ", $scope.createCalandarArray())
+//    console.log($scope.stringToDate("06/10/2014"))
+    $scope.cleanData()
+  //  console.log("DATA = ",appControllerModel.data)
+    console.log("DATA By Date = ",$scope.dataByDate(appControllerModel.data[1].jsDate))
 }])
 
 
 AppMain.factory('AppControllerModel', function(){
     return {title:"Main Model",
-        stringToDate:function(string){
-            var arr = string.split("/")
 
-        },
 
         data: [
             {
