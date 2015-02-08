@@ -14,7 +14,7 @@
     <!-- for the datepicker -->
     <script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <!--<script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>-->
     <!--<script type="text/javascript" src="libs/jquery-ui/jquery-ui.js"></script>-->
@@ -126,17 +126,17 @@
     <!-- The calandar -->
 
             <ul class="date-list">
-            <li class="date-cells" data-ng-repeat = "(key, item) in dateList">
+            <li class="date-cells" data-ng-repeat = "(key, item) in dateList" ng-class="item.getDay() == 2 ? 'monday' : 'not-monday'">
                 <div class="date-bar ">
-                <p>{{::dateToString(item)}}</p>
+                <p class="the-date">{{::dateToString(item)}}</p>
                     <ul class="individual-leave-cell" ng-style="{'width': cellWidth, 'height' : cellWidth}">
                         <li data-ng-repeat = "(_key, dateData) in dataByDate(item)"
                             class="leave-list-item"
-                            ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px', 'background-color' : nameColour(dateData.name) }"
+                            ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px', 'background-color' : nameColour(dateData.name),  'border-color': dataByDate(item).length > 13 ? '#ff00ff' :  '#ffffff'  }"
                             ng-class="dateData.userid %2 ? 'even' : 'odd' " >
                             <div class="leave-cell" >
                                 <p>{{dateData.name}}</p>
-                                <a  ng-click="removeDate(dateData.key)">X</a>
+                                <a class="fa fa-minus-circle"  ng-click="removeDate(dateData.key)"> </a>
                                 <!--{{dateData.userid}}<br />-->
                                 <!--{{dateData.date}}<br />-->
                                 <!--{{dateData.unit}} {{dateData.value}}<br />-->

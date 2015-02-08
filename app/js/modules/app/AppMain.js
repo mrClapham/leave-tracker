@@ -98,7 +98,6 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.createCalandarArray = function(){
         var a = [];
         var startDate = $scope.getMinAndMaxDates().min;
-        var a = [];
         a.push(new Date(startDate))
 
         while(startDate < $scope.getMinAndMaxDates().max){

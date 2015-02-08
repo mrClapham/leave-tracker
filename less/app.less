@@ -18,12 +18,34 @@
 
 }
 
-.test{
-  color: #ff00ff;
+
+ul.names-list{
+  list-style: none;
+  padding: 0;
+  margin: none;
+  color: #ffffff !important;
+  li{
+    margin:0;
+    padding: 5px;
+    p{
+      color: #fffff;
+      font-weight: bold;
+    }
+
+  }
+
+}
+.monday{
+  background-color: #e1f1ff;
+}
+
+.the-date{
+  margin: 3px 10px;
+  font-weight: bold;
 }
 
 .date-bar{
-  border: 1px #cccccc solid;
+  border: 1px #cccccc dotted;
 }
 
 ul.date-list{
@@ -39,18 +61,32 @@ ul.date-list{
     }
     ul.individual-leave-cell{
       margin: 0;
+      text-align: center;
       padding:0;
       list-style: none;
+      a{
+        color:#ffffff;
+        font-size: 18px;
+        &:hover{
+          color: #454545;
+          text-decoration: none;
+        }
+      }
       .leave-list-item{
         position: absolute;
         width: inherit;
         height:80px;
-        border: 1px solid #454545;
+        border: 1px dotted #ffffff;
         &.even{ background-color: #59ffd3;}
         &.odd{ background-color: #ff0000;}
         .leave-cell{
           p{
-            .rotate;
+            font-weight: bold;
+            color: #ffffff !important;
+            font-size: 9px;
+            line-height: 9px;
+            padding-top: 10px;
+           // .rotate;
           }
         }
       }
