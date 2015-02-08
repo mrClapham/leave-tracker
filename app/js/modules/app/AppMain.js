@@ -16,6 +16,32 @@ AppMain.config(['$routeProvider',
 AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($scope, appControllerModel){
     $scope.testData = "AppController data"
 
+
+
+    $scope.createTweenColours = function(start, end, steps){
+        var _r, _g, _b, _rstep, _gstep, _bstep;
+        _r = start.r;
+        _g = start.g;
+        _b = start.b;
+
+        var returnArray = [];
+
+        _rstep =  0 - Math.round( parseFloat(start.r - end.r) / steps  );
+        _gstep =  0 - Math.round( parseFloat(start.g - end.g) / steps  );
+        _bstep =  0 - Math.round( parseFloat(start.b - end.b) / steps  );
+
+        for(var i=0; i<steps; i++){
+            var o = 'rgba('+_r+','+_g+','+_b+', 1)'
+            returnArray.push(o);
+            _r += _rstep;
+            _g += _gstep;
+            _b += _bstep;
+        }
+
+        return returnArray;
+    }
+
+
 // Get rid of the ones with no date and add a javaScript date to the array.
     $scope.cleanData = function(){
         var key = 0
@@ -62,6 +88,11 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         var key = $scope.getHighestKey().key+1
         var dateString = $scope.dateToString(date)
         appControllerModel.data.push({userid:userid, name:name, date:dateString, jsDate:date, unit:unit, value:value, jsDate:date, key:key})
+    }
+
+    $scope.removeDate = function(key){
+        console.log(key)
+        _.remove(appControllerModel.data, function(n) { return n.key == key; });
     }
 
     $scope.createCalandarArray = function(){
@@ -117,6 +148,9 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
     })();
 
+    $scope.colourArray = $scope.createTweenColours({r:0,g:255,b:0}, {r:255,g:0,b:255}, $scope.nameList.length)
+
+    console.log($scope.colourArray)
     $scope.cleanData()
 
     // The worker
@@ -146,6 +180,10 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
 
         $scope.addDate("1", $scope.currentWorker, $scope.dt , $scope.unit, $scope.value.charAt(0))
 
+    }
+
+    $scope.calculateLeftPosition = function(key, width){
+        return ((parseInt(key) * parseInt(width))-parseInt(width))+"px";
     }
 
 

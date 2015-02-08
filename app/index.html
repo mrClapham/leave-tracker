@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="libs/angular-ui/build/angular-ui.min.css"/>
     <script src="libs/angular/angular.min.js"></script>
@@ -28,7 +29,7 @@
 </head>
 <body>
 
-<div ng-app="AppMain" ng-controller="AppController">
+<div ng-app="AppMain" ng-controller="AppController" ng-cloak>
     <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
         <div class="container">
             <div class="navbar-header">
@@ -62,10 +63,18 @@
                 </ul>
             </div>
 
+            <hr />
+
 
             <div class="btn-group">
                 <label class="btn btn-primary" ng-model="unit" btn-radio="'AM'">AM</label>
                 <label class="btn btn-primary" ng-model="unit" btn-radio="'PM'">PM</label>
+            </div>
+            <hr />
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="value" btn-radio="'Vacation'">Vacation</label>
+                <label class="btn btn-primary" ng-model="value" btn-radio="'Public Holiday'">Public Holiday</label>
+                <label class="btn btn-primary" ng-model="value" btn-radio="'Training'">Training</label>
             </div>
 
 
@@ -112,7 +121,6 @@
              </ul>
         </div>
             <!-- //// -->
-            <button ng-click="onAddButtonClicked()">Click me</button>
 
             <div class="col-md-10">
     <!-- The calandar -->
@@ -121,10 +129,13 @@
             <li class="date-cells" data-ng-repeat = "(key, item) in dateList">
                 <div class="date-bar ">
                 <p>{{::dateToString(item)}}</p>
-                    <ul class="individual-leave-cell" ng-style="{'width': cellWidth}">
-                        <li data-ng-repeat = "(key, dateData) in dataByDate(item)" class="leave-list-item" ng-class="dateData.userid %2 ? 'even' : 'odd' " >
+                    <ul class="individual-leave-cell" ng-style="{'width': cellWidth, 'height' : cellWidth}">
+                        <li data-ng-repeat = "(_key, dateData) in dataByDate(item)"
+                            class="leave-list-item" ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px' }"
+                            ng-class="dateData.userid %2 ? 'even' : 'odd' " >
                             <div class="leave-cell" >
                                 <p>{{dateData.name}}</p>
+                                <a  ng-click="removeDate(dateData.key)">DELETE</a>
                                 <!--{{dateData.userid}}<br />-->
                                 <!--{{dateData.date}}<br />-->
                                 <!--{{dateData.unit}} {{dateData.value}}<br />-->

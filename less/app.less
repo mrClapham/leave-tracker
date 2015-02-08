@@ -1,5 +1,23 @@
-@import "../node_modules/bootstrap/less/bootstrap";
-@cellHeight = 200px;
+@cellHeight:200px;
+.rotate {
+
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
 .test{
   color: #ff00ff;
 }
@@ -14,15 +32,26 @@ ul.date-list{
   margin: none;
   .date-cells{
     height: @cellHeight ;
+    position: relative;
+    .date-bar{
+      height:@cellHeight;
+
+    }
     ul.individual-leave-cell{
+      margin: 0;
+      padding:0;
       list-style: none;
       .leave-list-item{
+        position: absolute;
         width: inherit;
-        height:@cellHeight/2;
-        &.even{ background-color: #ffff00;}
+        height:80px;
+        border: 1px solid #454545;
+        &.even{ background-color: #59ffd3;}
         &.odd{ background-color: #ff0000;}
         .leave-cell{
-
+          p{
+            .rotate;
+          }
         }
       }
 
