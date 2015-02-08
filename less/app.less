@@ -1,5 +1,32 @@
 @import "../node_modules/bootstrap/less/bootstrap";
-
+@cellHeight = 200px;
 .test{
   color: #ff00ff;
 }
+
+.date-bar{
+  border: 1px #cccccc solid;
+}
+
+ul.date-list{
+  list-style: none;
+  padding: 0;
+  margin: none;
+  .date-cells{
+    height: @cellHeight ;
+    ul.individual-leave-cell{
+      list-style: none;
+      .leave-list-item{
+        width: inherit;
+        height:@cellHeight/2;
+        &.even{ background-color: #ffff00;}
+        &.odd{ background-color: #ff0000;}
+        .leave-cell{
+
+        }
+      }
+
+    }
+  }
+}
+

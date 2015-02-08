@@ -15,12 +15,17 @@ AppMain.config(['$routeProvider',
 
 AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($scope, appControllerModel){
     $scope.testData = "AppController data"
-    $scope.data = appControllerModel.data[0].name
+
 // Get rid of the ones with no date and add a javaScript date to the array.
     $scope.cleanData = function(){
+        var key = 0
         return _.forEach(_.filter(appControllerModel.data, function(n){
             return n.date && n.date != undefined
-        }), function(n){return n.jsDate = $scope.stringToDate(n.date)})
+        }), function(n){
+            n.key = key;
+            key++
+            n.jsDate = $scope.stringToDate(n.date)
+            return n})
     }
 
     $scope.stringToDate=function(string){
@@ -30,6 +35,18 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
             return
         }
         return new Date(arr[2], arr[1]-1, arr[0])
+    }
+
+    $scope.dateToString=function(date){
+        if(!date) return;
+        if(!date.getFullYear()) return // it isnt a date
+        var year, month, day;
+        year = date.getFullYear();
+        month = date.getMonth()+1
+        day = date.getDate();
+        var retSting = day+"/"+month+"/"+year
+        console.log(retSting)
+        return retSting
     }
 
     $scope.getAllDates = function(){
@@ -43,7 +60,9 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     }
 
     $scope.addDate = function(userid, name, date, unit, value){
-        appControllerModel.data.push({userid:userid, name:name, date:date, unit:unit, value:value, jsDate:$scope.stringToDate(date)})
+        var key = $scope.getHighestKey().key+1
+        var dateString = $scope.dateToString(date)
+        appControllerModel.data.push({userid:userid, name:name, date:dateString, jsDate:date, unit:unit, value:value, jsDate:date, key:key})
     }
 
     $scope.createCalandarArray = function(){
@@ -56,15 +75,9 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
             startDate.setDate(startDate.getDate()+1);
             a.push(new Date(startDate))
         }
-
         return(a);
     }
 
-    $scope.dateList =  $scope.createCalandarArray();
-
-    $scope.nameList = (function(){
-        return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
-    })();
 
     $scope.dataByName = function( value ){
         return _.filter(appControllerModel.data, function(n){
@@ -86,9 +99,22 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         return appControllerModel.data
     }
 
+    $scope.getHighestKey = function(){
+       return _.max(appControllerModel.data, function(n){ return n.key })
+        }
 
+    $scope.onAddButtonClicked = function(){
+        console.log( $scope.getHighestKey().key  );
 
-    $scope.webby = $scope.dataByName('Matthew Webb');
+        $scope.addDate("1", "Matthew Webb", new Date() , "AM", "V")
+
+        }
+// Add some varibles to the scope from the functions above
+    $scope.dateList =  $scope.createCalandarArray();
+    $scope.nameList = (function(){
+        return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
+    })();
+    $scope.cellWidth = Math.floor(900/$scope.nameList.length)+"px";
 
 //    console.log("scope.dataByName ", $scope.dataByName("Matthew Webb"))
 //    console.log("scope.dataByName ", $scope.getAllData())
@@ -100,6 +126,8 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.cleanData()
   //  console.log("DATA = ",appControllerModel.data)
     console.log("DATA By Date = ",$scope.dataByDate(appControllerModel.data[1].jsDate))
+    console.log("DATA By getHighestKey = ",$scope.dataByDate(appControllerModel.data[12].key))
+
 }])
 
 

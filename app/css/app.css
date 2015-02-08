@@ -6532,3 +6532,23 @@ button.close {
 .test {
   color: #ff00ff;
 }
+.date-bar {
+  border: 1px #cccccc solid;
+}
+ul.date-list {
+  list-style: none;
+  padding: 0;
+  margin: none;
+}
+ul.date-list .date-cells ul.individual-leave-cell {
+  list-style: none;
+}
+ul.date-list .date-cells ul.individual-leave-cell .leave-list-item {
+  width: inherit;
+}
+ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.even {
+  background-color: #ffff00;
+}
+ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.odd {
+  background-color: #ff0000;
+}
