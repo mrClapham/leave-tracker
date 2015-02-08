@@ -16,8 +16,6 @@ AppMain.config(['$routeProvider',
 AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($scope, appControllerModel){
     $scope.testData = "AppController data"
 
-
-
 // Get rid of the ones with no date and add a javaScript date to the array.
     $scope.cleanData = function(){
         var key = 0
@@ -47,7 +45,6 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         month = date.getMonth()+1
         day = date.getDate();
         var retSting = day+"/"+month+"/"+year
-        console.log(retSting)
         return retSting
     }
 
@@ -75,7 +72,10 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
 
         while(startDate < $scope.getMinAndMaxDates().max){
             startDate.setDate(startDate.getDate()+1);
+            //ignore weekends
+            if(startDate.getDay() != 0 &&  startDate.getDay() != 6){
             a.push(new Date(startDate))
+            }
         }
         return(a);
     }
@@ -117,18 +117,36 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
     })();
 
+    $scope.cleanData()
 
     // The worker
+
+
+    $scope.currentWorker = $scope.nameList[0];
+    $scope.uints = ["AM", "PM"];
+    $scope.unit = $scope.uints[0];
+    $scope.values = ['Vacation', 'Public Holiday', 'Training']
+    $scope.value = $scope.values[0];
+
     $scope.setCurrentWorker= function(value){
         $scope.currentWorker = value;
     }
 
-    $scope.currentWorker = $scope.nameList[0];
+    $scope.setCurrentValue = function(value){
+        $scope.unit = value;
+    }
+
+    $scope.setCurrentUnit = function(value){
+        $scope.value = value;
+    }
 
     $scope.cellWidth = Math.floor(900/$scope.nameList.length)+"px";
 
+    $scope.submit = function(){
 
-    $scope.cleanData()
+        $scope.addDate("1", $scope.currentWorker, $scope.dt , $scope.unit, $scope.value.charAt(0))
+
+    }
 
 
 //-- All the datepicker stuff --
@@ -148,7 +166,6 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.disabled = function(date, mode) {
         return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
     };
-
 
     $scope.toggleMin = function() {
         $scope.minDate = $scope.minDate ? null : new Date();

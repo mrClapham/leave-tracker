@@ -50,7 +50,7 @@
         </div>
         <div class="col-md-4">
 
-            <!-- Single button -->
+            <!-- worker button -->
             <div class="btn-group" dropdown is-open="status.isopen">
                 <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >
                     Choose worker <span class="caret"></span>
@@ -62,21 +62,44 @@
                 </ul>
             </div>
 
+
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="unit" btn-radio="'AM'">AM</label>
+                <label class="btn btn-primary" ng-model="unit" btn-radio="'PM'">PM</label>
+            </div>
+
+
         </div>
         <div class="col-md-4">
+
+
+            <!-- value button -->
+            <!--<div class="btn-group" dropdown is-open="status.isopen">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >-->
+            <!--Choose Vacation type <span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu" role="menu">-->
+            <!--<li data-ng-repeat = "(key, value) in values">-->
+            <!--<a href="#" ng-click="setCurrentValue(item)">{{::value}}</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+
+
             <p>{{currentWorker}}</p>
             <p>{{dateToString(dt)}}</p>
+            <p>{{unit}}</p>
+            <p>{{value}}</p>
 
+            <button ng-click="submit()" class="btn btn-primary">SUBMIT</button>
         </div>
 
         </div>
-
-
 
         <!-- Example row of columns -->
         <div class="row">
             <!-- page specific view -->
-            <div ng-view></div>
+            <!--<div ng-view></div>-->
             <div class="col-md-2">
 
 
@@ -84,7 +107,7 @@
                 <ul>
             <li data-ng-repeat = "(key, item) in nameList">
                 <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
-                <p>{{item}}</p>
+                <p>{{::item}}</p>
             </li>
              </ul>
         </div>
@@ -92,26 +115,28 @@
             <button ng-click="onAddButtonClicked()">Click me</button>
 
             <div class="col-md-10">
+    <!-- The calandar -->
 
             <ul class="date-list">
             <li class="date-cells" data-ng-repeat = "(key, item) in dateList">
-                <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
                 <div class="date-bar ">
-                <p>{{item}}</p>
+                <p>{{::dateToString(item)}}</p>
                     <ul class="individual-leave-cell" ng-style="{'width': cellWidth}">
                         <li data-ng-repeat = "(key, dateData) in dataByDate(item)" class="leave-list-item" ng-class="dateData.userid %2 ? 'even' : 'odd' " >
                             <div class="leave-cell" >
                                 <p>{{dateData.name}}</p>
-                                <!-- userid, name, date, unit, value -->
-                                {{dateData.userid}}<br />
-                                {{dateData.date}}<br />
-                                {{dateData.unit}} {{dateData.value}}<br />
+                                <!--{{dateData.userid}}<br />-->
+                                <!--{{dateData.date}}<br />-->
+                                <!--{{dateData.unit}} {{dateData.value}}<br />-->
                             </div>
                         </li>
                     </ul>
                 </div>
             </li>
              </ul>
+
+       <!-- the calandar ends -->
+
 </div>
 
 
