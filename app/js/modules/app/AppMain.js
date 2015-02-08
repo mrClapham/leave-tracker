@@ -1,4 +1,4 @@
-var AppMain = new angular.module('AppMain', [ "ngRoute"])
+var AppMain = new angular.module('AppMain', [ "ngRoute", "ui.bootstrap"])
 AppMain.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
@@ -15,6 +15,8 @@ AppMain.config(['$routeProvider',
 
 AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($scope, appControllerModel){
     $scope.testData = "AppController data"
+
+
 
 // Get rid of the ones with no date and add a javaScript date to the array.
     $scope.cleanData = function(){
@@ -78,7 +80,6 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         return(a);
     }
 
-
     $scope.dataByName = function( value ){
         return _.filter(appControllerModel.data, function(n){
           return   n.name == value
@@ -111,22 +112,65 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
         }
 // Add some varibles to the scope from the functions above
     $scope.dateList =  $scope.createCalandarArray();
+
     $scope.nameList = (function(){
         return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
     })();
+
+
+    // The worker
+    $scope.setCurrentWorker= function(value){
+        $scope.currentWorker = value;
+    }
+
+    $scope.currentWorker = $scope.nameList[0];
+
     $scope.cellWidth = Math.floor(900/$scope.nameList.length)+"px";
 
-//    console.log("scope.dataByName ", $scope.dataByName("Matthew Webb"))
-//    console.log("scope.dataByName ", $scope.getAllData())
-//    console.log("scope.nameList ", $scope.nameList)
-//    console.log("scope.getAllDates ", $scope.getAllDates())
-//    console.log("scope.getAllDates ", $scope.getMinAndMaxDates())
-//    console.log("scope.createCalandarArray ", $scope.createCalandarArray())
-//    console.log($scope.stringToDate("06/10/2014"))
+
     $scope.cleanData()
-  //  console.log("DATA = ",appControllerModel.data)
-    console.log("DATA By Date = ",$scope.dataByDate(appControllerModel.data[1].jsDate))
-    console.log("DATA By getHighestKey = ",$scope.dataByDate(appControllerModel.data[12].key))
+
+
+//-- All the datepicker stuff --
+
+
+    $scope.today = function() {
+        $scope.dt = new Date();
+    };
+   // $scope.today();
+    $scope.dt = $scope.minDate  = _.clone($scope.getMinAndMaxDates().min);
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    // Disable weekend selection
+    $scope.disabled = function(date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    };
+
+
+    $scope.toggleMin = function() {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    //$scope.toggleMin();
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+
+    //--- ens of all the datepicker stuff -------
 
 }])
 
