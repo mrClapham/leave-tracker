@@ -113,8 +113,8 @@
 
 
 
-                <ul>
-            <li data-ng-repeat = "(key, item) in nameList">
+                <ul class="names-list ">
+            <li class="name- cells" data-ng-repeat = "(key, item) in nameList" ng-style="{'background-color': colourArray[key]}">
                 <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
                 <p>{{::item}}</p>
             </li>
@@ -131,11 +131,12 @@
                 <p>{{::dateToString(item)}}</p>
                     <ul class="individual-leave-cell" ng-style="{'width': cellWidth, 'height' : cellWidth}">
                         <li data-ng-repeat = "(_key, dateData) in dataByDate(item)"
-                            class="leave-list-item" ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px' }"
+                            class="leave-list-item"
+                            ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px', 'background-color' : nameColour(dateData.name) }"
                             ng-class="dateData.userid %2 ? 'even' : 'odd' " >
                             <div class="leave-cell" >
                                 <p>{{dateData.name}}</p>
-                                <a  ng-click="removeDate(dateData.key)">DELETE</a>
+                                <a  ng-click="removeDate(dateData.key)">X</a>
                                 <!--{{dateData.userid}}<br />-->
                                 <!--{{dateData.date}}<br />-->
                                 <!--{{dateData.unit}} {{dateData.value}}<br />-->

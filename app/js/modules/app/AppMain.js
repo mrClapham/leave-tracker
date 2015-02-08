@@ -145,12 +145,19 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.dateList =  $scope.createCalandarArray();
 
     $scope.nameList = (function(){
+        console.log("nameList is being called")
         return _.filter(_.uniq(_.map(appControllerModel.data, "name")), function(n){ return _.isString(n) })
     })();
+    // this function may be firing too often
+    $scope.StaticNamesList = _.clone($scope.nameList)
 
     $scope.colourArray = $scope.createTweenColours({r:0,g:255,b:0}, {r:255,g:0,b:255}, $scope.nameList.length)
+    $scope.nameColour = function(name){
+       var index =  _.indexOf($scope.nameList, name);
+        return $scope.colourArray[index];
+    }
 
-    console.log($scope.colourArray)
+    console.log("THE COLOUR IS ",$scope.nameColour("Matthew Webb") )
     $scope.cleanData()
 
     // The worker
@@ -177,8 +184,8 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.cellWidth = Math.floor(900/$scope.nameList.length)+"px";
 
     $scope.submit = function(){
-
-        $scope.addDate("1", $scope.currentWorker, $scope.dt , $scope.unit, $scope.value.charAt(0))
+        var arrayPos = _.indexOf($scope.nameList, $scope.currentWorker)
+        $scope.addDate(arrayPos+1, $scope.currentWorker, $scope.dt , $scope.unit, $scope.value.charAt(0))
 
     }
 
