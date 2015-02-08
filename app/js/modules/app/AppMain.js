@@ -43,8 +43,7 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     }
 
     $scope.addDate = function(userid, name, date, unit, value){
-        appControllerModel.data.push()
-
+        appControllerModel.data.push({userid:userid, name:name, date:date, unit:unit, value:value, jsDate:$scope.stringToDate(date)})
     }
 
     $scope.createCalandarArray = function(){

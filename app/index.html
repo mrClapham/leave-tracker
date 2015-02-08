@@ -19,22 +19,33 @@
         <div class="row">
             <!-- page specific view -->
             <div ng-view></div>
-
+            <div class="col-md-2">
             <ul>
             <li data-ng-repeat = "(key, item) in nameList">
                 <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
                 <p>{{item}}</p>
             </li>
              </ul>
+        </div>
+            <!-- //// -->
+
+            <div class="col-md-10">
 
             <ul>
             <li data-ng-repeat = "(key, item) in dateList">
                 <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
+                <div class="date-bar">
                 <p>{{item}}</p>
+                    <ul>
+                        <li data-ng-repeat = "(key, dateData) in dataByDate(item)">
+                            {{dateData.name}}
+                        </li>
+                    </ul>
+
+                </div>
             </li>
              </ul>
-
-
+</div>
 
 
         </div>
