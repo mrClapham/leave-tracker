@@ -1,4 +1,5 @@
-var AppMain = new angular.module('AppMain', [ "ngRoute", "ui.bootstrap"])
+var AppMain = new angular.module('AppMain', [ "ngRoute", "ui.bootstrap", "react"])
+
 AppMain.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
