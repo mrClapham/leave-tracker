@@ -24,7 +24,7 @@ var Calendar = React.createClass({
         <li>{ this.props.dates.map(function(e, i){
             console.log(_this.props.sublistfunc(e))
 
-        
+
             return (<p>{String(e)}</p>)
             }) }</li>
         </div>);
