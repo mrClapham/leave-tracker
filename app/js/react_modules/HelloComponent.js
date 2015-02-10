@@ -5,7 +5,13 @@ var HelloComponent = React.createClass({
         lname : React.PropTypes.string.isRequired
     },
     render: function() {
-        return <p>Hello {this.props.fname} {this.props.lname}</p>;
+            return (<div>
+                <h1>This is the HELLOOOO </h1>
+            </div>
+
+                )
+
+
     }
 });
 

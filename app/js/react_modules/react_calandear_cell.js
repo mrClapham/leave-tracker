@@ -12,7 +12,7 @@ var PersonApp = React.createClass({
             <h1>This is the PersonApp</h1>
         </div>
 
-        )
+            )
     }
 })
 

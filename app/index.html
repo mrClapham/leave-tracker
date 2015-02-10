@@ -7,14 +7,18 @@
     <link rel="stylesheet" href="libs/angular-ui/build/angular-ui.min.css"/>
     <script src="libs/angular/angular.min.js"></script>
 
+
     <!-- react -->
     <script src="js/staticlibs/react/react.js"></script>
     <script src="js/staticlibs/react/JSXTransformer.js"></script>
     <script src="libs/ngReact/ngReact.js"></script>
     <!-- react -->
+
     <!-- react components -->
-    <script type="text/jsx" src="js/react_modules/react_calandear_cell.js"></script>
-    <script type="text/jsx" src="js/react_modules/HelloComponent.js"></script>
+
+    <!--<script type="text/jsx" src="js/react_modules/react_calandear_cell.js"></script>-->
+    <!--<script type="text/jsx" src="js/react_modules/HelloComponent.js"></script>-->
+
 
     <script src="libs/angular-resource/angular-resource.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
@@ -28,6 +32,10 @@
     <!-- for the datepicker -->
 
     <script src="js/modules/app/AppMain.js"></script>
+    <script src="js/react_modules/CalandarReactComponents.js"></script>
+
+    <script type="text/javascript" src="js/modules/app/AppDirectives.js"></script>
+
 </head>
 <body>
 
@@ -78,7 +86,6 @@
                     <label class="btn btn-primary" ng-model="value" btn-radio="'Public Holiday'">Public Holiday</label>
                     <label class="btn btn-primary" ng-model="value" btn-radio="'Training'">Training</label>
                 </div>
-
 
             </div>
             <div class="col-md-4">
@@ -134,11 +141,7 @@
             -->
                 <!-- the calandar ends -->
             <div id="react-calandar">
-
-            <script type="text/jsx">
-                React.renderComponent(<PersonApp data={'hello'}/>, document.getElementById("react-calandar"))
-            </script>
-
+                <calandar dates="dateList" worker="currentWorker" sublist="dataByDate(dateList[0])"  sublistfunc ="dataByDate" />
             </div>
 
             </div>
