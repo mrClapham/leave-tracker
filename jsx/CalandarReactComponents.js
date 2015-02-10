@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var Calendar = React.createClass({
     propTypes: {
+        allData : React.PropTypes.array,
         dates : React.PropTypes.array.isRequired,
         sublist : React.PropTypes.array,
         daysoff : React.PropTypes.array,
@@ -10,20 +11,20 @@ var Calendar = React.createClass({
     render: function() {
         var _this = this;
 //        console.log(this.props.sublist)
-//        console.log(this.props.sublistfunc)
+        console.log("ALL DATA :",this.props.allData)
         return (<div>
-            <ul>
-            <li> Hello</li>
-            </ul>
-
         <h1>Date {this.props.worker} </h1>
         <h1>Date {this.props.dates[0].getFullYear()} </h1>
-        <li>{ this.props.dates.map(function(e, i){
-            console.log(_this.props.sublistfunc(e))
+            <ul className="date-list">
+            { this.props.dates.map(function(e, i){
 
+                console.log(_this.props.sublistfunc(e))
+                console.log("Calendar i ",i)
+                console.log("Calendar e ",e)
 
-            return (<div><p>{String(e)}</p><CalendarCell dateArray ={_this.props.sublistfunc(e) || []} /></div>)
-            }) }</li>
+                return (<li className="date-cells"><p>{String(e)}</p><CalendarCell key={i} dateArray ={_this.props.sublistfunc(e) || []} /></li>)
+                }) }
+                </ul>
         </div>);
     }
 });
@@ -33,22 +34,31 @@ AppMain.value('Calendar', Calendar);
 var CalendarCell = React.createClass({
     propTypes: {
         dateArray : React.PropTypes.array.isRequired,
-//        day : React.PropTypes.string.isRequired
+        key : React.PropTypes.number.isRequired
     },
-    render: function() {
 
-        return (<div>{this.props.dateArray.map(function(n){return <WorkerLeaveCell /> })}</div>);
+    render: function() {
+        return (<ul classname="individual-leave-cell">{this.props.dateArray.map(function(n){return <WorkerLeaveCell key={n.key}  data={n} /> })}</ul>);
     }
 });
 AppMain.value('CalendarCell', CalendarCell);
 
 var WorkerLeaveCell = React.createClass({
     propTypes: {
-//        date : React.PropTypes.string.isRequired,
-//        day : React.PropTypes.string.isRequired
+        key : React.PropTypes.number,
+        data : React.PropTypes.object
     },
     render: function() {
-        return <p>I am a WORKER</p>;
+        /*
+         key: 42
+         name: "Matthew Webb"
+         unit: "PM"
+         userid: "1"
+         value: "P"
+         */
+        return (<li classname="leave-list-item">
+                    <p>I am {this.props.data.name}</p>
+                </li>);
     }
 });
 AppMain.value('WorkerLeaveCell', WorkerLeaveCell);
