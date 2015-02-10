@@ -1,4 +1,5 @@
 .rotate {
+  color: #ff4f10;
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -40,42 +41,57 @@ ul.date-list {
   margin: none;
 }
 ul.date-list .date-cells {
-  height: 200px;
   position: relative;
+  border-top: 1px dotted #454545;
 }
 ul.date-list .date-cells .date-bar {
   height: 200px;
 }
 ul.date-list .date-cells ul.individual-leave-cell {
   margin: 0;
-  text-align: center;
+  text-align: left;
   padding: 0;
   list-style: none;
-}
-ul.date-list .date-cells ul.individual-leave-cell a {
+  font-weight: bold;
   color: #ffffff;
-  font-size: 18px;
 }
-ul.date-list .date-cells ul.individual-leave-cell a:hover {
-  color: #454545;
-  text-decoration: none;
+ul.date-list .date-cells .leave-list-item {
+  border: 1px dotted rgba(255, 255, 255, 0.5);
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item {
-  position: absolute;
-  width: inherit;
-  height: 80px;
-  border: 1px dotted #ffffff;
-}
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.even {
+ul.date-list .date-cells .leave-list-item.even {
   background-color: #59ffd3;
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.odd {
+ul.date-list .date-cells .leave-list-item.odd {
   background-color: #ff0000;
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item .leave-cell p {
-  font-weight: bold;
-  color: #ffffff !important;
-  font-size: 9px;
-  line-height: 9px;
-  padding-top: 10px;
+ul.date-list .date-cells .leave-list-item .leave-cell {
+  padding: 4px;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell p {
+  padding: 0;
+  margin: 0;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell a {
+  position: absolute;
+  right: 10px;
+  color: #454545;
+  font-size: 18px;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell a:hover {
+  color: #ff4f10;
+  text-decoration: none;
+}
+.show-false {
+  display: none;
+}
+#data-input {
+  top: 0;
+  padding-top: 35px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+}
+#the-data {
+  margin-top: 300px;
 }

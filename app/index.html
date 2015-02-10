@@ -6,6 +6,20 @@
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="libs/angular-ui/build/angular-ui.min.css"/>
     <script src="libs/angular/angular.min.js"></script>
+
+
+    <!-- react -->
+    <script src="js/staticlibs/react/react.js"></script>
+    <script src="js/staticlibs/react/JSXTransformer.js"></script>
+    <script src="libs/ngReact/ngReact.js"></script>
+    <!-- react -->
+
+    <!-- react components -->
+
+    <!--<script type="text/jsx" src="js/react_modules/react_calandear_cell.js"></script>-->
+    <!--<script type="text/jsx" src="js/react_modules/HelloComponent.js"></script>-->
+
+
     <script src="libs/angular-resource/angular-resource.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
     <script src="libs/angular-ui/build/angular-ui.min.js"></script>
@@ -15,141 +29,122 @@
     <script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-    <!--<script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>-->
-    <!--<script type="text/javascript" src="libs/jquery-ui/jquery-ui.js"></script>-->
-    <!--<script type="text/javascript" src="libs/angular-ui/build/angular-ui.js"></script>-->
-    <!--<script type="text/javascript" src="libs/angular-ui-date/src/date.js"></script>-->
-
-    <!--<link rel="stylesheet" href="libs/jquery-ui/themes/dark-hive/jquery-ui.min.css"/>-->
-    <!--<link rel="stylesheet" href="libs/jquery-ui/themes/dark-hive/jquery-ui.min.css"/>-->
-    <!--<link rel="stylesheet" href="libs/angular-ui/build/angular-ui.min.css"/>-->
+    <!-- for the datepicker -->
 
     <script src="js/modules/app/AppMain.js"></script>
+    <script src="js/react_modules/CalandarReactComponents.js"></script>
+
+    <script type="text/javascript" src="js/modules/app/AppDirectives.js"></script>
+
 </head>
 <body>
 
 <div ng-app="AppMain" ng-controller="AppController" ng-cloak>
-    <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">Absence manager</a>
-            </div>
+        <!--<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">-->
+            <!--<div class="container">-->
+                <!--<div class="navbar-header">-->
+                    <!--<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">-->
+                        <!--<span class="sr-only">Toggle navigation</span>-->
+                        <!--<span class="icon-bar"></span>-->
+                        <!--<span class="icon-bar"></span>-->
+                        <!--<span class="icon-bar"></span>-->
+                    <!--</button>-->
+                    <!--<a href="/" class="navbar-brand">Absence manager</a>-->
+                <!--</div>-->
 
-        </div>
-    </header>
-    <div class="container">
-    <div class="row" id="data-input">
-        <div class="col-md-4">
-            <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
-        </div>
-        <div class="col-md-4">
-
-            <!-- worker button -->
-            <div class="btn-group" dropdown is-open="status.isopen">
-                <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >
-                    Choose worker <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li data-ng-repeat = "(key, item) in nameList">
-                    <a href="#" ng-click="setCurrentWorker(item)">{{item}}</a>
-                    </li>
-                </ul>
-            </div>
-
-            <hr />
-
-
-            <div class="btn-group">
-                <label class="btn btn-primary" ng-model="unit" btn-radio="'AM'">AM</label>
-                <label class="btn btn-primary" ng-model="unit" btn-radio="'PM'">PM</label>
-            </div>
-            <hr />
-            <div class="btn-group">
-                <label class="btn btn-primary" ng-model="value" btn-radio="'Vacation'">Vacation</label>
-                <label class="btn btn-primary" ng-model="value" btn-radio="'Public Holiday'">Public Holiday</label>
-                <label class="btn btn-primary" ng-model="value" btn-radio="'Training'">Training</label>
-            </div>
-
-
-        </div>
-        <div class="col-md-4">
-
-
-            <!-- value button -->
-            <!--<div class="btn-group" dropdown is-open="status.isopen">-->
-            <!--<button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >-->
-            <!--Choose Vacation type <span class="caret"></span>-->
-            <!--</button>-->
-            <!--<ul class="dropdown-menu" role="menu">-->
-            <!--<li data-ng-repeat = "(key, value) in values">-->
-            <!--<a href="#" ng-click="setCurrentValue(item)">{{::value}}</a>-->
-            <!--</li>-->
-            <!--</ul>-->
             <!--</div>-->
+        <!--</header>-->
+    <div class="container">
+        <div class="row" id="data-input">
+            <div class="col-md-4">
+                <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+            </div>
+            <div class="col-md-4">
+                <h4>Add a new leave period</h4>
+                <!-- worker button -->
+                <div class="btn-group" dropdown is-open="status.isopen">
+                    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >
+                        Choose worker <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li data-ng-repeat = "(key, item) in nameList">
+                            <a href="#" ng-click="setCurrentWorker(item)">{{item}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <hr />
 
 
-            <p>{{currentWorker}}</p>
-            <p>{{dateToString(dt)}}</p>
-            <p>{{unit}}</p>
-            <p>{{value}}</p>
+                <div class="btn-group">
+                    <label class="btn btn-primary fa fa-sun-o" ng-model="unit" btn-radio="'AM'"> AM</label>
+                    <label class="btn btn-primary fa fa-moon-o" ng-model="unit" btn-radio="'PM'"> PM</label>
+                </div>
+                <hr />
+                <div class="btn-group">
+                    <label class="btn btn-primary fa fa-bed" ng-model="value" btn-radio="'Vacation'"> Vacation</label>
+                    <label class="btn btn-primary fa fa-calendar" ng-model="value" btn-radio="'Public Holiday'"> Public Holiday</label>
+                    <label class="btn btn-primary fa fa-graduation-cap" ng-model="value" btn-radio="'Training'"> Training</label>
+                </div>
 
-            <button ng-click="submit()" class="btn btn-primary">SUBMIT</button>
-        </div>
+            </div>
+            <div class="col-md-4">
+
+                <h4>{{currentWorker}}<br />
+                on: {{dateToString(dt)}}<br />
+                {{unit}}<br />
+                {{value}}</h4>
+
+                <button ng-click="submit()" class="btn btn-primary">ADD</button>
+            </div>
 
         </div>
 
         <!-- Example row of columns -->
-        <div class="row">
+        <div id="the-data" class="row">
             <!-- page specific view -->
             <!--<div ng-view></div>-->
             <div class="col-md-2">
 
 
 
-                <ul class="names-list ">
-            <li class="name- cells" data-ng-repeat = "(key, item) in nameList" ng-style="{'background-color': colourArray[key]}">
-                <!--<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>-->
-                <p>{{::item}}</p>
-            </li>
-             </ul>
-        </div>
+                <!--<ul class="names-list ">-->
+                    <!--<li class="name- cells" data-ng-repeat = "(key, item) in nameList" ng-style="{'background-color': colourArray[key]}">-->
+                        <!--&lt;!&ndash;<a href="{{item.html_url}}" target="_blank">{{item.title}}</a>&ndash;&gt;-->
+                        <!--<p>{{::item}}</p>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            </div>
             <!-- //// -->
 
             <div class="col-md-10">
-    <!-- The calandar -->
+                <!-- The calandar -->
+<!--
+                <ul class="date-list">
+                    <li class="date-cells" data-ng-repeat = "(key, item) in dateList" ng-class="item.getDay() == 2 ? 'monday' : 'not-monday'">
+                        <div class="date-bar ">
+                            <p class="the-date">{{::dateToString(item)}}</p>
+                            <ul class="individual-leave-cell" ng-style="{'width': cellWidth, 'height' : cellWidth}">
+                                <li data-ng-repeat = "(_key, dateData) in dataByDate(item)"
+                                    class="leave-list-item"
+                                    ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px', 'background-color' : nameColour(dateData.name),  'border-color': dataByDate(item).length > 13 ? '#ff00ff' :  '#ffffff'  }"
+                                    ng-class="dateData.userid %2 ? 'even' : 'odd' " >
+                                    <div class="leave-cell" >
+                                        <p>{{dateData.name}}</p>
+                                        <a class="fa fa-minus-circle"  ng-click="removeDate(dateData.key)"> </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            -->
+                <!-- the calandar ends -->
+            <div id="react-calandar">
+                <calandar dates="dateList" alldata="allData" worker="currentWorker" colourArray="colourArray"  sublistfunc ="dataByDate" />
+            </div>
 
-            <ul class="date-list">
-            <li class="date-cells" data-ng-repeat = "(key, item) in dateList" ng-class="item.getDay() == 2 ? 'monday' : 'not-monday'">
-                <div class="date-bar ">
-                <p class="the-date">{{::dateToString(item)}}</p>
-                    <ul class="individual-leave-cell" ng-style="{'width': cellWidth, 'height' : cellWidth}">
-                        <li data-ng-repeat = "(_key, dateData) in dataByDate(item)"
-                            class="leave-list-item"
-                            ng-style="{'left' : calculateLeftPosition(dateData.userid, cellWidth), 'top' : dateData.unit == 'AM' ? '20px' : '100px', 'background-color' : nameColour(dateData.name),  'border-color': dataByDate(item).length > 13 ? '#ff00ff' :  '#ffffff'  }"
-                            ng-class="dateData.userid %2 ? 'even' : 'odd' " >
-                            <div class="leave-cell" >
-                                <p>{{dateData.name}}</p>
-                                <a class="fa fa-minus-circle"  ng-click="removeDate(dateData.key)"> </a>
-                                <!--{{dateData.userid}}<br />-->
-                                <!--{{dateData.date}}<br />-->
-                                <!--{{dateData.unit}} {{dateData.value}}<br />-->
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-             </ul>
-
-       <!-- the calandar ends -->
-
-</div>
+            </div>
 
 
         </div>

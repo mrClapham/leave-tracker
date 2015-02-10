@@ -1,5 +1,8 @@
 @cellHeight:200px;
+@linkColour: #454545;
+@linkColour-hover: #FF4F10;
 .rotate {
+  color: #ff4f10;
 
   /* Safari */
   -webkit-transform: rotate(-90deg);
@@ -53,44 +56,59 @@ ul.date-list{
   padding: 0;
   margin: none;
   .date-cells{
-    height: @cellHeight ;
     position: relative;
+    border-top: 1px dotted #454545;
     .date-bar{
       height:@cellHeight;
+
     }
     ul.individual-leave-cell{
       margin: 0;
-      text-align: center;
+      text-align: left;
       padding:0;
       list-style: none;
-      a{
-        color:#ffffff;
-        font-size: 18px;
-        &:hover{
-          color: #454545;
-          text-decoration: none;
-        }
+      font-weight: bold;
+      color:#ffffff;
       }
       .leave-list-item{
-        position: absolute;
-        width: inherit;
-        height:80px;
-        border: 1px dotted #ffffff;
+
+        border: 1px dotted rgba(255,255,255,.5);
         &.even{ background-color: #59ffd3;}
         &.odd{ background-color: #ff0000;}
         .leave-cell{
+          padding: 4px;
           p{
-            font-weight: bold;
-            color: #ffffff !important;
-            font-size: 9px;
-            line-height: 9px;
-            padding-top: 10px;
-           // .rotate;
+            padding: 0;
+            margin: 0;
           }
+          a{
+            position: absolute;
+            right: 10px;
+            color:@linkColour;
+            font-size: 18px;
+            &:hover{
+              color: @linkColour-hover;
+              text-decoration: none;
+            }
         }
       }
-
     }
   }
 }
 
+.show-false{
+  display: none;
+}
+
+#data-input{
+  top:0;
+  padding-top:35px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255,255,255,.95);
+}
+
+#the-data{
+  margin-top: 300px;
+}
