@@ -1,4 +1,5 @@
 .rotate {
+  color: #ff4f10;
   /* Safari */
   -webkit-transform: rotate(-90deg);
   /* Firefox */
@@ -51,21 +52,46 @@ ul.date-list .date-cells ul.individual-leave-cell {
   text-align: left;
   padding: 0;
   list-style: none;
+  font-weight: bold;
+  color: #ffffff;
 }
-ul.date-list .date-cells ul.individual-leave-cell a {
+ul.date-list .date-cells .leave-list-item {
+  border: 1px dotted rgba(255, 255, 255, 0.5);
+}
+ul.date-list .date-cells .leave-list-item.even {
+  background-color: #59ffd3;
+}
+ul.date-list .date-cells .leave-list-item.odd {
+  background-color: #ff0000;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell {
+  padding: 4px;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell p {
+  padding: 0;
+  margin: 0;
+}
+ul.date-list .date-cells .leave-list-item .leave-cell a {
+  position: absolute;
+  right: 10px;
   color: #454545;
   font-size: 18px;
 }
-ul.date-list .date-cells ul.individual-leave-cell a:hover {
-  color: #656565;
+ul.date-list .date-cells .leave-list-item .leave-cell a:hover {
+  color: #ff4f10;
   text-decoration: none;
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item {
-  border: 1px dotted #ffffff;
+.show-false {
+  display: none;
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.even {
-  background-color: #59ffd3;
+#data-input {
+  top: 0;
+  padding-top: 35px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
 }
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.odd {
-  background-color: #ff0000;
+#the-data {
+  margin-top: 300px;
 }

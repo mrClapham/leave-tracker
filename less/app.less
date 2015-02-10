@@ -1,7 +1,8 @@
 @cellHeight:200px;
 @linkColour: #454545;
-@linkColour-hover: #656565;
+@linkColour-hover: #FF4F10;
 .rotate {
+  color: #ff4f10;
 
   /* Safari */
   -webkit-transform: rotate(-90deg);
@@ -66,25 +67,48 @@ ul.date-list{
       text-align: left;
       padding:0;
       list-style: none;
-      a{
-        color:@linkColour;
-        font-size: 18px;
-        &:hover{
-          color: @linkColour-hover;
-          text-decoration: none;
-        }
+      font-weight: bold;
+      color:#ffffff;
       }
       .leave-list-item{
 
-        border: 1px dotted #ffffff;
+        border: 1px dotted rgba(255,255,255,.5);
         &.even{ background-color: #59ffd3;}
         &.odd{ background-color: #ff0000;}
         .leave-cell{
-
+          padding: 4px;
+          p{
+            padding: 0;
+            margin: 0;
+          }
+          a{
+            position: absolute;
+            right: 10px;
+            color:@linkColour;
+            font-size: 18px;
+            &:hover{
+              color: @linkColour-hover;
+              text-decoration: none;
+            }
         }
       }
-
     }
   }
 }
 
+.show-false{
+  display: none;
+}
+
+#data-input{
+  top:0;
+  padding-top:35px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255,255,255,.95);
+}
+
+#the-data{
+  margin-top: 300px;
+}

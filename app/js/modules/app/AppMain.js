@@ -175,13 +175,13 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     // this function may be firing too often
     $scope.StaticNamesList = _.clone($scope.nameList)
 
-    $scope.colourArray = $scope.createTweenColours({r:0,g:255,b:0}, {r:255,g:0,b:255}, $scope.nameList.length)
+    $scope.colourArray = $scope.createTweenColours({r:232,g:160,b:12}, {r:13,g:255,b:235}, 25)
+
     $scope.nameColour = function(name){
        var index =  _.indexOf($scope.nameList, name);
         return $scope.colourArray[index];
     }
 
-    console.log("THE COLOUR IS ",$scope.nameColour("Matthew Webb") )
 
 
    // $scope.cleanData()
