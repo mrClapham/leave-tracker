@@ -56,7 +56,7 @@ var CalendarCell = React.createClass({
         //console.log("CalendarCell dateArray : ", this.props.dateArray)
         //console.log("CalendarCell staticTester : ", this.props.staticTester)
         var _this = this
-        return (<ul classname="individual-leave-cell">{this.props.dateArray.map(function(n){return <WorkerLeaveCell date={_this.props._date}  data={n} alldata={_this.props._alldata}/> })}</ul>);
+        return (<ul className="individual-leave-cell ">{this.props.dateArray.map(function(n){return <WorkerLeaveCell date={_this.props._date}  data={n} alldata={_this.props._alldata}/> })}</ul>);
     }
 });
 AppMain.value('CalendarCell', CalendarCell);
@@ -75,7 +75,8 @@ var WorkerLeaveCell = React.createClass({
     },
     getDefaultProps: function() {
         return {
-            deleted: false
+            deleted: false,
+            showclass: "leave-cell show-true"
         };
     },
     removeArrayItem : function(){
@@ -83,8 +84,8 @@ var WorkerLeaveCell = React.createClass({
         var __key = this.props.data.key;
         var __data = this.props.alldata;
         _.remove(__data, function(n) { return n.key == __key; });
-        this.render()
         console.log("The key ",__key);
+        this.setState({showclass: "leave-cell show-false"})
     },
     render: function() {
         /*
@@ -94,11 +95,10 @@ var WorkerLeaveCell = React.createClass({
          userid: "1"
          value: "P"
          */
-        return (<li classname="leave-list-item {this.props.data.unit}">
-                    <p>
-                    <p onClick={this.removeArrayItem} >remove</p>
-                    <p>{this.props.data.unit} : </p><span className="value">{this.props.data.value}</span> {this.props.data.name}
-                    </p>
+        return (<li className="leave-list-item {this.props.data.unit}">
+                    <div className={this.props.showclass}>
+                    <p> <a onClick={this.removeArrayItem} >remove</a>{this.props.data.unit} : <span className="value">{this.props.data.value}</span> {this.props.data.name}</p>
+                    </div>
                 </li>);
     }
 });

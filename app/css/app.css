@@ -41,28 +41,26 @@ ul.date-list {
 }
 ul.date-list .date-cells {
   position: relative;
+  border-top: 1px dotted #454545;
 }
 ul.date-list .date-cells .date-bar {
   height: 200px;
 }
 ul.date-list .date-cells ul.individual-leave-cell {
   margin: 0;
-  text-align: center;
+  text-align: left;
   padding: 0;
   list-style: none;
 }
 ul.date-list .date-cells ul.individual-leave-cell a {
-  color: #ffffff;
+  color: #454545;
   font-size: 18px;
 }
 ul.date-list .date-cells ul.individual-leave-cell a:hover {
-  color: #454545;
+  color: #656565;
   text-decoration: none;
 }
 ul.date-list .date-cells ul.individual-leave-cell .leave-list-item {
-  position: absolute;
-  width: inherit;
-  height: 80px;
   border: 1px dotted #ffffff;
 }
 ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.even {
@@ -70,11 +68,4 @@ ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.even {
 }
 ul.date-list .date-cells ul.individual-leave-cell .leave-list-item.odd {
   background-color: #ff0000;
-}
-ul.date-list .date-cells ul.individual-leave-cell .leave-list-item .leave-cell p {
-  font-weight: bold;
-  color: #ffffff !important;
-  font-size: 9px;
-  line-height: 9px;
-  padding-top: 10px;
 }

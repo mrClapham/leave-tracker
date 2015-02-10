@@ -1,4 +1,6 @@
 @cellHeight:200px;
+@linkColour: #454545;
+@linkColour-hover: #656565;
 .rotate {
 
   /* Safari */
@@ -54,39 +56,31 @@ ul.date-list{
   margin: none;
   .date-cells{
     position: relative;
+    border-top: 1px dotted #454545;
     .date-bar{
       height:@cellHeight;
 
     }
     ul.individual-leave-cell{
       margin: 0;
-      text-align: center;
+      text-align: left;
       padding:0;
       list-style: none;
       a{
-        color:#ffffff;
+        color:@linkColour;
         font-size: 18px;
         &:hover{
-          color: #454545;
+          color: @linkColour-hover;
           text-decoration: none;
         }
       }
       .leave-list-item{
-        position: absolute;
-        width: inherit;
-        height:80px;
+
         border: 1px dotted #ffffff;
         &.even{ background-color: #59ffd3;}
         &.odd{ background-color: #ff0000;}
         .leave-cell{
-          p{
-            font-weight: bold;
-            color: #ffffff !important;
-            font-size: 9px;
-            line-height: 9px;
-            padding-top: 10px;
-           // .rotate;
-          }
+
         }
       }
 
