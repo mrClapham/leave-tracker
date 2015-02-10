@@ -26,17 +26,9 @@ var Calendar = React.createClass({
         <h1>Date {this.props.dates[0].getFullYear()} </h1>
             <ul className="date-list">
             { this.props.dates.map(function(e, i){
-
-                //console.log(_this.props.sublistfunc(e))
-                //console.log("Calendar i ",i)
-               // console.log("Calendar e ",e)
-                    var _i = i;
+                var _i = i;
                 var _dateData = _this.dataByDate(_this.props.alldata, e);
-                //console.log("The _i value is ",_i);
-                //console.log("_dateData", _dateData);
-                //console.log("_dateData", _dateData);
-
-                return (<li className="date-cells"><p>{String(e)}</p><CalendarCell staticTester="Just testing" key="_i" dateArray ={_dateData} /></li>)
+                return (<li className="date-cells"><p>{String(e)}</p><CalendarCell staticTester="Just testing" _date={e} dateArray ={_dateData} _alldata={_this.props.alldata} /></li>)
                 }) }
                 </ul>
         </div>);
@@ -45,31 +37,54 @@ var Calendar = React.createClass({
 AppMain.value('Calendar', Calendar);
 
 
+
 var CalendarCell = React.createClass({
     propTypes: {
         dateArray : React.PropTypes.array.isRequired,
         key : React.PropTypes.number,
-        staticTester : React.PropTypes.string
+        staticTester : React.PropTypes.string,
+        _date: React.PropTypes.object,
+        _alldata : React.PropTypes.array
     },
 
     addHello:function(string){
-        console.log()
         return string+" CalendarCell."
     },
 
     render: function() {
-        console.log("CalendarCell key : ", this.props.key)
-        console.log("CalendarCell dateArray : ", this.props.dateArray)
-        console.log("CalendarCell staticTester : ", this.props.staticTester)
-        return (<ul classname="individual-leave-cell">{this.addHello("helloo ")} {this.props.dateArray.map(function(n){return <WorkerLeaveCell key={n.key}  data={n} /> })}</ul>);
+        //console.log("CalendarCell key : ", this.props.key)
+        //console.log("CalendarCell dateArray : ", this.props.dateArray)
+        //console.log("CalendarCell staticTester : ", this.props.staticTester)
+        var _this = this
+        return (<ul classname="individual-leave-cell">{this.props.dateArray.map(function(n){return <WorkerLeaveCell date={_this.props._date}  data={n} alldata={_this.props._alldata}/> })}</ul>);
     }
 });
 AppMain.value('CalendarCell', CalendarCell);
 
+
+
+
+
 var WorkerLeaveCell = React.createClass({
     propTypes: {
         key : React.PropTypes.number,
-        data : React.PropTypes.object
+        data : React.PropTypes.object,
+        date: React.PropTypes.object,
+        alldata : React.PropTypes.array,
+        removed : React.PropTypes.bool
+    },
+    getDefaultProps: function() {
+        return {
+            deleted: false
+        };
+    },
+    removeArrayItem : function(){
+       // console.log(" --  CLICKED ",this.props.data.key);
+        var __key = this.props.data.key;
+        var __data = this.props.alldata;
+        _.remove(__data, function(n) { return n.key == __key; });
+        this.render()
+        console.log("The key ",__key);
     },
     render: function() {
         /*
@@ -79,9 +94,15 @@ var WorkerLeaveCell = React.createClass({
          userid: "1"
          value: "P"
          */
-        return (<li classname="leave-list-item {this.props.unit}">
-                    <p><span className="value">{this.props.value}</span> {this.props.data.name}</p>
+        return (<li classname="leave-list-item {this.props.data.unit}">
+                    <p>
+                    <p onClick={this.removeArrayItem} >remove</p>
+                    <p>{this.props.data.unit} : </p><span className="value">{this.props.data.value}</span> {this.props.data.name}
+                    </p>
                 </li>);
     }
 });
 AppMain.value('WorkerLeaveCell', WorkerLeaveCell);
+
+
+
