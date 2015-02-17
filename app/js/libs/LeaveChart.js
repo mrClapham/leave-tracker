@@ -112,7 +112,7 @@ LeaveChart = (function(targID){
             })
 
         this._nameList
-            .attr('fill', '#0000ff')
+            .attr('fill', 'rgba(0,0,0,.9)')
             .append("svg:rect")
             .attr('width',this.padding.left)
             .attr('height',_this._Yoffset )
@@ -238,6 +238,7 @@ LeaveChart = (function(targID){
         this._brush = new d3.svg.brush()
             .x(this._brushXScale)
             .on("brush", function(){ _brushFunction.call(_this);  })
+            .extent([this.min_max_date[0], this.min_max_date[1]]);
 
         this._view._brushHolder = this._view._svg
             .append("g")
@@ -252,6 +253,14 @@ LeaveChart = (function(targID){
             .append("g")
             .attr('transform', "translate(" + this.padding.left + "," + (this.height -30)  + ")")
             .call(this._view._xAxisBrush)
+
+        this._view._brusAxishHolder
+            .selectAll(".resize").append("svg:rect")
+
+            .attr("width", 30)
+            .attr("class", "brush-handle")
+            .attr("height", 130)
+            .attr("fill", '#ff00ff');
 
     }
 
@@ -339,8 +348,11 @@ LeaveChart = (function(targID){
                 return   d.unit == 'AM' ? _this._Yoffset/2 : 0;
             })
             .attr("height", function(d,i) { return _this._Yoffset/2 })
-            .attr('fill', function(d,i){return  d.unit == 'AM' ? 'rgba(255,0,255,255)' : 'rgba(0,255,255,255)'})
-            .on('click', function(d,i){console.log(d)})
+            .attr('fill', function(d,i){return  d.unit == 'AM' ? 'rgba(127,0,0,1)' : 'rgba(255,0,0,1)'})
+            .on('click', function(d,i){
+                console.log(d)
+
+            })
 
         this._dots.exit().remove()
     }

@@ -113,3 +113,18 @@ text {
 .tickY {
   stroke: #0000ff;
 }
+.brush {
+  fill: rgba(255, 0, 0, 0.9);
+}
+.resize.e {
+  fill: #0000ff;
+}
+.resize.w {
+  fill: #0000ff;
+}
+.resize path {
+  fill: #666;
+  fill-opacity: .8;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
