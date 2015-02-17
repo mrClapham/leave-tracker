@@ -8,7 +8,7 @@ LeaveChart = (function(targID){
         this._targID        = targID;
         this._target        = null;
         this.width          = 1200;
-        this.height         = 600;
+        this.height         = 1000;
         this.backgroundColor     = "rgba(20,30,50, 10)";
         this._canvas        = null;
         this._data          = null;
@@ -29,10 +29,10 @@ LeaveChart = (function(targID){
         this._xMax          = null;
         this._xDomainMin    = null;
         this._xDomainMax    = null;
-        this._Yoffset        = 20;
+        this._Yoffset        = 30;
 
         this._view          = {svg:null, _linesHolder:null};
-        this.padding        = {left:100, right:20, top:50, bottom:160}
+        this.padding        = {left:120, right:20, top:50, bottom:160}
 
         _init.call(this);
     }
@@ -69,17 +69,17 @@ LeaveChart = (function(targID){
             .attr('width',this.width)
             .attr('height',this.height )
             .attr('class', "myClass")
-            .attr('transform', "translate(" + this.padding.left + "," + this.padding.right  + ")");
+//            .attr('transform', "translate(" + this.padding.left + "," + this.padding.top  + ")");
 
         this._view._linesHolder = this._view._svg
             .append("g")
             .attr('class', 'lineHolder')
-            .attr('transform', "translate(" + this.padding.left + "," + this.padding.right  + ")");
+            .attr('transform', "translate(" + this.padding.left + "," + this.padding.top  + ")");
 
         this._view._dotHolder = this._view._svg
             .append("g")
             .attr('class', 'dotHolder')
-            .attr('transform', "translate(" + this.padding.left + "," + this.padding.right  + ")");
+            .attr('transform', "translate(" + this.padding.left + "," + this.padding.top  + ")");
     };
 
     var _initNameAxis = function(){
@@ -108,15 +108,30 @@ LeaveChart = (function(targID){
             .attr("class", "names")
             .attr("transform", function(d, i) {
                 console.log(d.userid )
-                return "translate("+10+","+ d.userid * _this._Yoffset +")";
+                return "translate("+0+","+ (d.userid-1) * _this._Yoffset +")";
             })
+
+        this._nameList
+            .attr('fill', '#0000ff')
+            .append("svg:rect")
+            .attr('width',this.padding.left)
+            .attr('height',_this._Yoffset )
+
+        this._nameList
+            .append("svg:line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 1500)
+            .attr("y2", 0)
+            .style("stroke-dasharray", ("1, 1"))
+            .attr("stroke-width", 1)
+            .attr("stroke", "rgba(255, 255, 255, .2)");
+
+        this._nameList
             .append("text")
             .attr('fill', '#ffffff')
             .text(function(d,i){return d.name })
-            .append("svg:rect")
-            .attr('fill', '#0000ff')
-            .attr('width',100)
-            .attr('height',_this._Yoffset )
+            .attr("dy", "1.3em")
 
       //  this._nameList.exit().remove();
 
@@ -147,7 +162,6 @@ LeaveChart = (function(targID){
 
 
 
-
     }
 
     var _initTimeAxis = function(){
@@ -157,6 +171,7 @@ LeaveChart = (function(targID){
             .scale(this._xScale)
             .orient("bottom")
             .ticks(d3.time.week,1)
+            .tickSize(-_this.height, 0, 0)
             .tickFormat(d3.time.format("%b %d %Y"));
 
         this._view._xAxisBrush = d3.svg.axis()
@@ -310,7 +325,7 @@ LeaveChart = (function(targID){
             .enter().append('g')
             .attr("class", "dot")
             .attr("transform", function(d, i) {
-                return "translate("+_this._xScale(d.jsDate)+","+ d.userid * 20+")";
+                return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })
 
         this._dots
@@ -321,10 +336,11 @@ LeaveChart = (function(targID){
             .attr("width", 12)
             .attr("y", function(d,i){
                 //return d.userid * 20
-                return   d.unit == 'AM' ? 12 : 0;
+                return   d.unit == 'AM' ? _this._Yoffset/2 : 0;
             })
-            .attr("height", function(d,i) { return 12 })
+            .attr("height", function(d,i) { return _this._Yoffset/2 })
             .attr('fill', function(d,i){return  d.unit == 'AM' ? 'rgba(255,0,255,255)' : 'rgba(0,255,255,255)'})
+            .on('click', function(d,i){console.log(d)})
 
         this._dots.exit().remove()
     }
@@ -334,22 +350,8 @@ LeaveChart = (function(targID){
         this._dots
             .transition()
             .attr("transform", function(d, i) {
-                return "translate("+_this._xScale(d.jsDate)+","+ d.userid * 20+")";
+                return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })
-
-//        this._dots
-//            .append('rect')
-//            .attr("x", function(d, i) {
-//                return  0 ;
-//            })
-//            .attr("width", 2)
-//            .attr("y", function(d,i){
-//                //return d.userid * 20
-//                return 0
-//            })
-//            .attr("height", function(d,i) { return 12 })
-//            .attr('fill', function(d,i){return 'rgba(255,0,255,255)'})
-
     }
 
     var _drawLine = function(){

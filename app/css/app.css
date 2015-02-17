@@ -103,7 +103,7 @@ ul.date-list .date-cells .leave-list-item .leave-cell a:hover {
 .xTimeAxis path,
 .xTimeAxis line {
   fill: none;
-  stroke: #ff00ff;
+  stroke: rgba(255, 255, 255, 0.2);
   shape-rendering: crispEdges;
 }
 text {
