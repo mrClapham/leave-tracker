@@ -27,6 +27,10 @@ AppMain.config(['$routeProvider',
             when('/tracker', {
                 templateUrl: 'js/modules/app/app.html'
             }).
+            when('/graph', {
+                templateUrl: 'js/modules/graph/GraphTemplate.html',
+                controller: 'AppController'
+            }).
             when('/', {
                 templateUrl: 'js/modules/app/app.html'
             }).
@@ -259,6 +263,11 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     $scope.format = $scope.formats[0];
 
     //--- ens of all the datepicker stuff -------
+
+    $scope.leaveChart = new LeaveChart('line_graph_holder');
+    //console.log($scope.allData)
+    $scope.leaveChart.setData($scope.allData)
+
 
 }])
 

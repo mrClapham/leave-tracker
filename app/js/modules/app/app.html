@@ -1,1 +1,54 @@
-<h1>Hello from the app</h1>
+<div class="row" id="data-input">
+    <div class="col-md-4">
+        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+    </div>
+    <div class="col-md-4">
+        <h4>Add a new leave period</h4>
+        <!-- worker button -->
+        <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle >
+                Choose worker <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li data-ng-repeat = "(key, item) in nameList">
+                    <a ng-click="setCurrentWorker(item)">{{item}}</a>
+                </li>
+            </ul>
+        </div>
+        <hr />
+        <div class="btn-group">
+            <label class="btn btn-primary fa fa-sun-o" ng-model="unit" btn-radio="'AM'"> AM</label>
+            <label class="btn btn-primary fa fa-moon-o" ng-model="unit" btn-radio="'PM'"> PM</label>
+        </div>
+        <hr />
+        <div class="btn-group">
+            <label class="btn btn-primary fa fa-bed" ng-model="value" btn-radio="'Vacation'"> Vacation</label>
+            <label class="btn btn-primary fa fa-calendar" ng-model="value" btn-radio="'Public Holiday'"> Public Holiday</label>
+            <label class="btn btn-primary fa fa-graduation-cap" ng-model="value" btn-radio="'Training'"> Training</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4>{{currentWorker}}<br />
+            on: {{dateToString(dt)}}<br />
+            {{unit}}<br />
+            {{value}}</h4>
+        <button ng-click="submit()" class="btn btn-primary">ADD</button>
+    </div>
+</div>
+
+<!-- Example row of columns -->
+<div id="the-data" class="row">
+    <div class="col-md-2">
+            <!-- empty for now -->
+    </div>
+    <!-- //// -->
+
+    <div class="col-md-10">
+        <div id="react-calandar">
+            <calandar dates="dateList" alldata="allData" worker="currentWorker" colourArray="colourArray"  sublistfunc ="dataByDate" />
+        </div>
+
+    </div>
+
+
+</div>
