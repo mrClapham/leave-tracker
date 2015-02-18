@@ -30,6 +30,7 @@ LeaveChart = (function(targID){
         this._xDomainMin    = null;
         this._xDomainMax    = null;
         this._Yoffset        = 30;
+        this._months         = 12
 
         this._view          = {svg:null, _linesHolder:null};
         this.padding        = {left:120, right:20, top:50, bottom:160}
@@ -107,7 +108,6 @@ LeaveChart = (function(targID){
             .enter().append('g')
             .attr("class", "names")
             .attr("transform", function(d, i) {
-                console.log(d.userid )
                 return "translate("+0+","+ (d.userid-1) * _this._Yoffset +")";
             })
 
@@ -136,41 +136,16 @@ LeaveChart = (function(targID){
       //  this._nameList.exit().remove();
 
 
-        /*
-
-         this._view._xAxisTicks =  this._view._xTickHolder.selectAll('.tickY')
-         .data(_this._xScale.ticks(d3.time.day))
-
-         this._view._xAxisTicks
-         .enter()
-         .append("g")
-         .attr('class', 'tickY')
-         .append("svg:line")
-         .attr("x1", _this._xScale)
-         .attr("x2", _this._xScale)
-         //            .attr("y1", -300)
-         //            .attr("y2", 200 )
-         .attr("class", "yTickLine" )
-
-         this._view._xAxisTicks
-         .exit()
-         .remove();
-
-
-         */
-
-
-
-
     }
 
     var _initTimeAxis = function(){
 
         var _this = this;
+
         this._view._xAxis = d3.svg.axis()
             .scale(this._xScale)
             .orient("bottom")
-            .ticks(d3.time.week,1)
+            .ticks(d3.time.week,12)
             .tickSize(-_this.height, 0, 0)
             .tickFormat(d3.time.format("%b %d %Y"));
 
@@ -189,15 +164,6 @@ LeaveChart = (function(targID){
         this._view._xTickHolder = this._view._svg.append("g")
             .attr("transform","translate("+this.padding.left+"," + ( _this.height - _this.padding.bottom ) + ")")
             .attr("class","xTimeAxisTicks")
-
-//        this._view._xTickHolder
-//            .append("g")
-//            .attr('x', _this._xScale)
-//            .attr('width', 10)
-//            .attr('height', 200)
-//            .attr('fill', '#ff0000')
-//            .attr('class', 'textHolder')
-//            .attr('transform', function(d,i){return 'translate('+_this._xScale(d.date)+','+( 10 )+')'})
 
 
         this._view._xAxisTicks =  this._view._xTickHolder.selectAll('.tickY')
@@ -220,7 +186,6 @@ LeaveChart = (function(targID){
             .remove();
 
         _updateTimeAxis.call(this);
-
     }
 
     var _updateTimeAxis = function(){
@@ -242,33 +207,70 @@ LeaveChart = (function(targID){
 
         this._view._brushHolder = this._view._svg
             .append("g")
-            .attr('transform', "translate(" + this.padding.left + "," + (this.height -60)  + ")")
+            .attr('transform', "translate(" + this.padding.left + "," + 0 + ")")
             .attr("class", "x brush")
             .call(this._brush)
+
+        this._view._brushHolder
             .selectAll("rect")
             .attr("y", -6)
-            .attr("height", 30);
-        var _this = this
+            .attr("height", this.padding.top);
+
+        var _this = this;
+
         this._view._brusAxishHolder = this._view._svg
             .append("g")
-            .attr('transform', "translate(" + this.padding.left + "," + (this.height -30)  + ")")
+            .attr("class", "brushDateAxis")
+            .attr('transform', "translate(" + this.padding.left + "," + 0  + ")")
             .call(this._view._xAxisBrush)
 
-        this._view._brusAxishHolder
-            .selectAll(".resize").append("svg:rect")
-
-            .attr("width", 30)
+        var handles = this._view._brushHolder
+            .selectAll(".resize")
+            .append("svg:rect")
+            .attr("width", 10)
             .attr("class", "brush-handle")
-            .attr("height", 130)
+            .attr("height", this.padding.top)
+            .attr("y", -6)
             .attr("fill", '#ff00ff');
 
+        console.log("_brusAxishHolder _",this._view._brusAxishHolder)
+        console.log("HANDLES _",handles)
+
+    }
+
+    var monthDiff = function(d1, d2) {
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth() + 1;
+        months += d2.getMonth();
+        return months <= 0 ? 0 : months;
     }
 
     var _brushFunction = function(e){
         this._xScale.domain(this._brush.empty() ? this._xScale.domain() : this._brush.extent());
 
-        //focus.select(".area").attr("d", area);
-        //focus.select(".x.axis").call(this._view._xAxis);
+        this._months  = monthDiff(this._brush.extent()[0], this._brush.extent()[1])
+
+        console.log(this._months)
+
+        if(this._months<=1){
+            this._view._xAxis
+                .ticks(d3.time.day,1)
+                .tickFormat(d3.time.format("%b %d"));
+
+        }
+        if(this._months>1 && this._months<3){
+            this._view._xAxis
+                .ticks(d3.time.week,1)
+                .tickFormat(d3.time.format("%b %Y"));
+
+        }
+        if(this._months>3){
+            this._view._xAxis
+                .ticks(d3.time.month,1)
+                .tickFormat(d3.time.format("%b %d %Y"));
+        }
+
         var _xAx = this._view._xAxisHolder
                     .call(this._view._xAxis);
         //_updateTimeAxis.call(this);
@@ -285,16 +287,6 @@ LeaveChart = (function(targID){
 
         this.min_max_date = d3.extent(this._data, function(d) { return d.jsDate; })
         console.log("MIN AND MAX ",this.min_max_date)
-
-//        this._vDomainMin    = this._data.MINVOL;
-//        this._vDomainMax    = this._data.MAXVOL;
-//        this._vMin          = this.padding.left;
-//        this._vMax          = this.width-this.padding.right;
-//
-//        this._xDomainMin    = this._data.MINVOL;
-//        this._xDomainMax    = this._data.MAXVOL;
-//        this._xMin          = this.padding.left;
-//        this._xMax          = this.width-this.padding.right;
 //
        this._xScale = d3.time.scale()
            .domain( this.min_max_date  )
@@ -308,10 +300,7 @@ LeaveChart = (function(targID){
         this._brushXScaleStatic   = d3.time.scale()
             .domain( this.min_max_date  )
             .range([0, this.width - this.padding.left - this.padding.right]);
-//
-//        this._vScale        = d3.scale.linear()
-//            .domain([this._vDomainMin, this._vDomainMax])
-//            .range([this.height - this.padding.top - this.padding.bottom, 0]);
+
 
         _draw.call(this);
     };
@@ -337,6 +326,15 @@ LeaveChart = (function(targID){
                 return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })
 
+        _updateDots.call(this)
+    }
+
+    var _updateDots = function(){
+        var _this = this;
+
+        this._dots = this._view._dotHolder.selectAll('.dot')
+            .data(this._data)
+
         this._dots
             .append('rect')
             .attr("x", function(d, i) {
@@ -351,16 +349,22 @@ LeaveChart = (function(targID){
             .attr('fill', function(d,i){return  d.unit == 'AM' ? 'rgba(127,0,0,1)' : 'rgba(255,0,0,1)'})
             .on('click', function(d,i){
                 console.log(d)
+                var _d = d
+                _.remove(_this._data, function(n) {
+                    return n == _d;
+                });
 
+                console.log(_this._data.length)
+                _updateDots.call(_this);
             })
 
         this._dots.exit().remove()
-    }
 
-    var _updateDots = function(){
+
         var _this = this
         this._dots
             .transition()
+            .duration(0)
             .attr("transform", function(d, i) {
                 return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })

@@ -114,7 +114,7 @@ text {
   stroke: #0000ff;
 }
 .brush {
-  fill: rgba(255, 0, 0, 0.9);
+  fill: rgba(255, 0, 0, 0.3);
 }
 .resize.e {
   fill: #0000ff;
@@ -127,4 +127,7 @@ text {
   fill-opacity: .8;
   stroke: #000;
   stroke-width: 1.5px;
+}
+.brushDateAxis {
+  fill: none;
 }
