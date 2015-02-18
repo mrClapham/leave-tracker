@@ -326,15 +326,6 @@ LeaveChart = (function(targID){
                 return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })
 
-        _updateDots.call(this)
-    }
-
-    var _updateDots = function(){
-        var _this = this;
-
-        this._dots = this._view._dotHolder.selectAll('.dot')
-            .data(this._data)
-
         this._dots
             .append('rect')
             .attr("x", function(d, i) {
@@ -357,6 +348,18 @@ LeaveChart = (function(targID){
                 console.log(_this._data.length)
                 _updateDots.call(_this);
             })
+
+
+        _updateDots.call(this)
+    }
+
+    var _updateDots = function(){
+        var _this = this;
+
+        this._dots = this._view._dotHolder.selectAll('.dot')
+            .data(this._data)
+
+
 
         this._dots.exit().remove()
 
