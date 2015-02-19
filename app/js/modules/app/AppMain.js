@@ -187,7 +187,6 @@ AppMain.controller('AppController', ['$scope', 'AppControllerModel', function($s
     }
 
 
-
    // $scope.cleanData()
 
     // The worker

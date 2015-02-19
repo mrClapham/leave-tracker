@@ -46,8 +46,6 @@ LeaveChart = (function(targID){
     var _init = function(){
         this._target = document.getElementById( this._targID );
 
-        console.log("SVG INITED ", this._target)
-
         _initSVG.call(this);
     };
 
@@ -109,7 +107,7 @@ LeaveChart = (function(targID){
         this._nameList
             .attr('fill', this.backgroundColor)
             .append("svg:rect")
-            .attr('width',this.padding.left)
+            .attr('width',this.padding.left - 12)
             .attr('height',_this._Yoffset )
             .attr("transform", function(d, i) {
                 return "translate("+0+","+ -10 +")";
@@ -204,11 +202,11 @@ LeaveChart = (function(targID){
             .attr('transform', "translate(" + this.padding.left + "," + 0 + ")")
             .attr("class", "x brush")
             .call(this._brush)
-
+        var brushMargin = 20
         this._view._brushHolder
             .selectAll("rect")
             .attr("y", -6)
-            .attr("height", this.padding.top);
+            .attr("height", this.padding.top - brushMargin);
 
         var _this = this;
 
@@ -223,7 +221,7 @@ LeaveChart = (function(targID){
             .append("svg:rect")
             .attr("width", 10)
             .attr("class", "brush-handle")
-            .attr("height", this.padding.top)
+            .attr("height", this.padding.top - brushMargin)
             .attr("y", -6)
             .attr("fill", '#ff0000');
 
@@ -268,9 +266,8 @@ LeaveChart = (function(targID){
                     .call(this._view._xAxis);
 
         _updateDots.call(this);
-
     }
-
+//----------------
     var _onDataSet = function(){
         this.min_max_date = d3.extent(this._data, function(d) { return d.jsDate; });
         console.log("MIN AND MAX ",this.min_max_date);
@@ -288,36 +285,55 @@ LeaveChart = (function(targID){
             .domain( this.min_max_date  )
             .range([0, this.width - this.padding.left - this.padding.right]);
 
+        this._allDates = _createCalandarArray.call(this);
 
         _draw.call(this);
     };
 
+    //----
+
+    var _createCalandarArray = function(){
+        var a = [];
+        var startDate = this.min_max_date.min;
+        a.push(new Date(startDate))
+
+        while(startDate < this.min_max_date.max){
+            startDate.setDate(startDate.getDate()+1);
+            //ignore weekends
+            if(startDate.getDay() != 0 &&  startDate.getDay() != 6){
+                a.push(new Date(startDate))
+            }
+        }
+        return(a);
+    }
+
+//--------------
     var _draw = function(){
         _initTimeAxis.call(this);
-        _intBrush.call(this);
         _drawDots.call(this);
         _initNameAxis.call(this);
+        _intBrush.call(this);
+
     };
+
+
+    var _makeArc = function(){
+        var arc = d3.svg.arc()
+            .outerRadius(9)
+            //.innerRadius(6)
+            .startAngle(0)
+            .endAngle(function(d, i) { return Math.PI; });
+        return arc
+    }
 
     var _drawDots = function(){
         var _this = this;
+        this._dots = this._view._dotHolder.selectAll('.dot').remove()
+
         this._dots = this._view._dotHolder.selectAll('.dot')
                     .data(this._data)
+        var radius = _this._Yoffset/4
 
-        var arc = d3.svg.arc()
-            .outerRadius(6)
-            .startAngle(0)
-            .endAngle(function(d, i) { return Math.PI; });
-
-
-        var _makeArc = function(){
-            var arc = d3.svg.arc()
-                .outerRadius(9)
-                .innerRadius(6)
-                .startAngle(0)
-                .endAngle(function(d, i) { return Math.PI; });
-            return arc
-        }
 
         this._dots
             .enter().append('g')
@@ -325,36 +341,67 @@ LeaveChart = (function(targID){
             .attr("transform", function(d, i) {
                 return "translate("+_this._xScale(d.jsDate)+","+ ( (d.userid * _this._Yoffset) - _this._Yoffset)+")";
             })
-        var radius = _this._Yoffset/4
 
 
-        this._dots
+      //  this._dots
             .append('svg:path')
             .attr("d", _makeArc() )
             .attr("transform", function(d) {
-                return d.unit == 'AM' ? "rotate(90)" : "rotate(-90)"
+                return d.unit == 'AM' ? "rotate(-90)" : "rotate(90)"
             })
+            .style('opacity', function(d,i){
+                return d.unit == 'AM' ? "0.5" : "1"
+            })
+            .attr('fill', function(d,i){
+                var _fill;
+                switch(d.value){
+                    case "V" :
+                        _fill = 'rgba(0,255,0,.5)'
+                        break;
+                    case "T" :
+                        _fill = 'rgba(255,255,0,.5)'
+                        break;
+                    case "P" :
+                        _fill = 'rgba(0, 0,255,.5)'
+                        break;
+                    default :
+                        _fill = 'rgba(60, 60,60,.5)'
+                        break;
+                }
 
-        //.attr("x", function(d, i) {
-        //        return  0 ;
-        //    })
-        //    .attr("r", radius)
-        //    .attr("y", function(d,i){
-        //        //return d.userid * 20
-        //        return   d.unit == 'AM' ? radius*4 : 0;
-        //    })
-            //.attr("height", function(d,i) { return _this._Yoffset/2 })
-            .attr('fill', function(d,i){return  d.unit == 'AM' ? 'rgba(0,255,0,.5)' : 'rgba(255,0,0,1)'})
+                return  _fill //d.unit == 'AM' ? 'rgba(0,255,0,.5)' : 'rgba(255,0,0,1)'
+
+            })
+            .on('mouseover', function(d,i){
+                console.log(d.key);
+            })
             .on('click', function(d,i){
                 console.log(d)
                 var _d = d
-//                _.remove(_this._data, function(n) {
-//                    return n == _d;
-//                });
+                _.remove(_this._data, function(n) {
+                    return n.key == _d.key;
+                });
 //
-//                console.log(_this._data.length)
-//                _updateDots.call(_this);
+                console.log(_this._data.length)
+                console.log(_this._data)
+                _drawDots.call(_this);
             })
+
+        // first remove the text
+/*
+        this._dots.selectAll(".key").remove()
+
+        this._dots
+            .append("g")
+            .attr("class", "key")
+            .attr('fill', '#ffffff')
+            .append("text")
+            .attr("dy", function(d,i){return d.unit == "AM" ? "0em" : "1.2em"})
+            .text(function(d,i){return d.key })
+
+*/
+        this._dots.exit().remove();
+
         _updateDots.call(this)
     }
 
