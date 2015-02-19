@@ -107,7 +107,7 @@ LeaveChart = (function(targID){
             })
 
         this._nameList
-            .attr('fill', 'rgba(0,0,0,.9)')
+            .attr('fill', this.backgroundColor)
             .append("svg:rect")
             .attr('width',this.padding.left)
             .attr('height',_this._Yoffset )
@@ -313,7 +313,7 @@ LeaveChart = (function(targID){
         var _makeArc = function(){
             var arc = d3.svg.arc()
                 .outerRadius(9)
-                .innerRadius(3)
+                .innerRadius(6)
                 .startAngle(0)
                 .endAngle(function(d, i) { return Math.PI; });
             return arc
