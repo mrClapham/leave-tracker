@@ -7,7 +7,7 @@ LeaveChart = (function(targID){
     var _scope = function(targID){
         this._targID        = targID;
         this._target        = null;
-        this.width          = 1200;
+        this.width          = 1400;
         this.height         = 1000;
         this.backgroundColor     = "rgba(20,30,50, 10)";
         this._canvas        = null;
@@ -33,7 +33,7 @@ LeaveChart = (function(targID){
         this._months         = 12
 
         this._view          = {svg:null, _linesHolder:null};
-        this.padding        = {left:120, right:20, top:50, bottom:160}
+        this.padding        = {left:150, right:20, top:50, bottom:160}
 
         _init.call(this);
     }
@@ -87,7 +87,7 @@ LeaveChart = (function(targID){
         this._view._nameHolder = this._view._svg
             .append("g")
             .attr('class', 'nameHolder')
-            .attr('transform', "translate(" + 10 + "," + this.padding.top  + ")");
+            .attr('transform', "translate(" + 0 + "," + this.padding.top  + ")");
 
         var _names =  _.filter(_.uniq(_.map(this._data, "name")), function(n){
             return _.isString(n)
@@ -132,6 +132,7 @@ LeaveChart = (function(targID){
             .attr('fill', '#ffffff')
             .text(function(d,i){return d.name })
             .attr("dy", "1.3em")
+            .attr("dx", "1.3em")
 
       //  this._nameList.exit().remove();
 
@@ -231,7 +232,7 @@ LeaveChart = (function(targID){
             .attr("class", "brush-handle")
             .attr("height", this.padding.top)
             .attr("y", -6)
-            .attr("fill", '#ff00ff');
+            .attr("fill", '#ff0000');
 
         console.log("_brusAxishHolder _",this._view._brusAxishHolder)
         console.log("HANDLES _",handles)
@@ -341,12 +342,12 @@ LeaveChart = (function(targID){
             .on('click', function(d,i){
                 console.log(d)
                 var _d = d
-                _.remove(_this._data, function(n) {
-                    return n == _d;
-                });
-
-                console.log(_this._data.length)
-                _updateDots.call(_this);
+//                _.remove(_this._data, function(n) {
+//                    return n == _d;
+//                });
+//
+//                console.log(_this._data.length)
+//                _updateDots.call(_this);
             })
 
 
