@@ -89,7 +89,7 @@ LeaveChart = (function(targID){
             return _.isString(n)
         })
 
-        var names =  _.uniq(this._data, "name")
+       this.names =  _.uniq(this._data, "name")
 //        _.filter(_.uniq(_.map(this._data, "name")), function(n){
 //            return _.isString(n)
 //        })
@@ -97,7 +97,7 @@ LeaveChart = (function(targID){
 
         this._nameList = this._view._nameHolder
             .selectAll(".names")
-            .data(names)
+            .data(this.names)
             .enter().append('g')
             .attr("class", "names")
             .attr("transform", function(d, i) {
@@ -285,19 +285,26 @@ LeaveChart = (function(targID){
             .domain( this.min_max_date  )
             .range([0, this.width - this.padding.left - this.padding.right]);
 
-        this._allDates = _createCalandarArray.call(this);
+
 
         _draw.call(this);
     };
+
+    var _makeEmptyDates = function(){
+        this._allDates = _createCalandarArray.call(this);
+        //console.log("this._allDates ----- ",this._allDates)
+        this.datesByWorker = _createPersonArray.call(this, this._allDates)
+        console.log("this.datesByWorker ", this.datesByWorker)
+    }
 
     //----
 
     var _createCalandarArray = function(){
         var a = [];
-        var startDate = this.min_max_date.min;
+        var startDate = this.min_max_date[0];
         a.push(new Date(startDate))
 
-        while(startDate < this.min_max_date.max){
+        while(startDate < this.min_max_date[1]){
             startDate.setDate(startDate.getDate()+1);
             //ignore weekends
             if(startDate.getDay() != 0 &&  startDate.getDay() != 6){
@@ -307,12 +314,36 @@ LeaveChart = (function(targID){
         return(a);
     }
 
+    var _createPersonArray = function(arr){
+    /*
+     jsDate: Mon Oct 06 2014 00:00:00 GMT+0100 (BST)key: 0name: "Matthew Webb"unit: "AM"userid: "1"value: "V"
+     */
+        var _createObject = function(name, userid, jsDate){
+            return {userid:userid, jsDate: jsDate, name:name, key:0, unit:null, value:null}
+        }
+        //console.log("AAA    ",arr)
+        var a = [];
+        var _this = this
+        console.log("N A M E S :",this.names)
+        arr.forEach(function(i){
+        //console.log(a)
+            var _i = i
+        _this.names.forEach(function(n){
+           // console.log(i)
+            a.push(_createObject(n.name, n.userid, i))
+            })
+        })
+
+    return a;
+    }
+
 //--------------
     var _draw = function(){
         _initTimeAxis.call(this);
         _drawDots.call(this);
         _initNameAxis.call(this);
         _intBrush.call(this);
+        _makeEmptyDates.call(this);
 
     };
 
